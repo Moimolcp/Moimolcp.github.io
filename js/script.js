@@ -84,7 +84,7 @@ function loadData3(){
 		url: "https://data.cityofchicago.org/resource/6zsd-86xi.json",
 		type: "GET",
 		data: {
-			"$limit" : 2000,
+			"$limit" : 1000,
 			"year" : 2017,
 			"$where" : "latitude IS NOT NULL AND longitude IS NOT NULL " ,
 			"$$app_token" : "sAFdYn2bqKywAwbfaxPq5Q83H"
@@ -94,8 +94,8 @@ function loadData3(){
 			var aux = data[i];
 			var locatio = new google.maps.LatLng(data[i].location.coordinates[1],data[i].location.coordinates[0]);
 			for (var j = listMarkers.length - 1; j >= 0; j--) {		
-				if (distancePoints(listMarkers[j].position,locatio) <= 2000){
-					listMarkers[j].utility += 10;
+				if (distancePoints(listMarkers[j].position,locatio) <= 1500){
+					listMarkers[j].security += -1;
 				}
 			}		
 		};
@@ -111,10 +111,10 @@ function loadData4(){
 	}).done(function(data) {
 		for (var i = data.length - 1; i >= 0; i--) {
 			var aux = data[i];
-			var locatio = new google.maps.LatLng(data[i].latitude,data[i].longitude);
-			for (var j = listMarkers.length - 1; j >= 0; j--) {				
+			var locatio = new google.maps.LatLng(data[i].location.coordinates[1],data[i].location.coordinates[0]);			
+			for (var j = listMarkers.length - 1; j >= 0; j--) {		
 				if (distancePoints(listMarkers[j].position,locatio) <= 1500){
-					listMarkers[j].utility += 10;
+					listMarkers[j].utility += 1;
 				}
 
 			}					
