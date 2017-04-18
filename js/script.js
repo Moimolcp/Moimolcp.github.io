@@ -194,6 +194,7 @@ function loadData(){
 					select.setMap(map);
 				}
 				select = this;
+				map.setCenter(this.position);
 				infowindow.close();
 				infowindow = new google.maps.InfoWindow({
 					content: this.property_name
@@ -210,7 +211,7 @@ function loadData(){
 				document.getElementById('phone').innerHTML =  '<b>Phone number</b>:  ' + this.phone_number + "<BR>";
 				document.getElementById('commu').innerHTML =   '<b>Name of community</b>:  ' + this.community_area + "<BR>";
 				document.getElementById('distan').innerHTML =   '<b>Distance to Department of Computer Science </b>:  ' + this.distance/1000 + " Km <BR>";
-
+				this.
 				$(".itemA").attr("myvar","desactive");
 				this.elementList.setAttribute("myvar","active");
 				this.elementList.scrollIntoView();
@@ -268,6 +269,7 @@ function selectMarker(elem){
 		select.setMap(map);
 	}
 	select = elem;
+	map.setCenter(elem.position);
 	infowindow.close();
 	infowindow = new google.maps.InfoWindow({
 		content: elem.property_name
