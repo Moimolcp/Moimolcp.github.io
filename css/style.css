@@ -22,7 +22,12 @@ html, body {
 	background: #08B257;
 	color: white;
 	font-size: 20px;
-	min-height: 250px;
+	min-height: 200px;
+	min-width: 75%;
+	border-radius: 6px;
+    padding: 5px 0;
+    border-style: solid;
+    border-color: white;
 }
 
 .prop {
@@ -41,7 +46,6 @@ html, body {
 	width: 500px;
 	height: 200px;
 	overflow: auto;
-	float: left; 
 
 }
 
@@ -71,9 +75,30 @@ li.itemA[myvar =  active]{
 	cursor: pointer;
 }
 
-.boton {
-	
+.btn .tooltiptext {
+    visibility: hidden;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
 }
 
+.btn:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
 
+.boton {
+	margin-left: 0.5cm;
+    float: left; 
+}
 
+	

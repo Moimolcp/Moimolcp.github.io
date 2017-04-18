@@ -11,6 +11,8 @@
 	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDhVqbR66cB7EcxWH2gBs5H_lNijk6oYfI&callback=initMap&libraries=geometry"> </script>
 	
 
+	
+
 	<meta charset="UTF-8" />
 
 
@@ -34,9 +36,34 @@ Test tools
 	<button  onclick = "addList()" > CLEAR </button>
 	!-->
 	<div> <br></div>
-	<div class="row back" >
-		<div class="col-sm-6 back">
-			<div id="table1 back"> 
+
+	<div class="row back" >		
+
+		<div class="col-sm-5 back">	
+			<div class="btn-group-vertical boton" >				
+				<span class="itemA list-group-item">Order By</span>				
+				<button onclick = "addListOrderD()" type="button" class="btn btn-primary">
+					<img src="img/icon1.png" alt="x" />  
+					Distance				
+				</button>
+				
+				<button onclick = "addListOrderS()" type="button" class="btn btn-primary"><img src="img/icon2.png" alt="x" />  
+					Security
+					<span class="tooltiptext">Score based on number of crimes, police stations and fire stations</span>
+					</button>
+
+					<button onclick = "addListOrderU()" type="button" class="btn btn-primary"><img src="img/icon3.png" alt="x" />  
+						Utility
+						<span class="tooltiptext">Number of nearby libraries and parks</span>
+					</button>
+				</div>
+
+				<ul id = "listCont" class="list-group cont">
+
+				</ul>
+		</div>
+		<div class="col-sm-5 back">
+			<div id="table1"> 
 
 				<span id = "name" class="prop"></span>	
 				<span id = "propType" class="prop"></span>
@@ -47,23 +74,7 @@ Test tools
 
 			</div>		
 		</div>
-		<div class="col-sm-6 back">			
-
-			<ul id = "listCont" class="list-group cont">
-
-			</ul>
-			<div class="btn-group-vertical boton" >
-				<span class="itemA list-group-item">Order By</span>				
-				<button onclick = "addListOrderD()" type="button" class="btn btn-primary"><img src="img/icon1.png" alt="x" />  Distance</button>
-				<button onclick = "addListOrderS()" type="button" class="btn btn-primary"><img src="img/icon2.png" alt="x" />  Security</button>
-				<button onclick = "addListOrderU()" type="button" class="btn btn-primary"><img src="img/icon3.png" alt="x" />  Utility</button>
-			</div>
-
-
-		</div>
 	</div>
-
-	
 
 </body>
 </html>

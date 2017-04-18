@@ -1,8 +1,8 @@
 var map;
 var select;
 var infowindow;
-var auxScroll = 0; 
 var listMarkers = [];
+
 
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
@@ -30,12 +30,10 @@ function initMap() {
 		});
 		infowindow.open(marker.get('map'), marker);	
 	});
-	
 
-	
 	loadData();
-
 }
+
 
 //SECURITY DATESET
 function loadData2(){
@@ -101,6 +99,8 @@ function loadData3(){
 		};
 	});
 }
+
+
 function loadData4(){
 	$.ajax({
 		url: "https://data.cityofchicago.org/resource/psqp-6rmg.json",
@@ -120,7 +120,25 @@ function loadData4(){
 			}					
 		};
 	});
+	$.ajax({
+		url: "https://data.cityofchicago.org/resource/4xwe-2j3y.json",
+		type: "GET",
+		data: {
+			"$$app_token" : "sAFdYn2bqKywAwbfaxPq5Q83H"
+		}
+	}).done(function(data) {
 
+		for (var i = data.length - 1; i >= 0; i--) {
+			var aux = data[i];
+			var locatio = new google.maps.LatLng(data[i].location.coordinates[1],data[i].location.coordinates[0]);			
+			for (var j = listMarkers.length - 1; j >= 0; j--) {		
+				if (distancePoints(listMarkers[j].position,locatio) <= 500){
+					listMarkers[j].utility += 1;
+				}
+
+			}					
+		};
+	});
 
 }
 
@@ -195,7 +213,7 @@ function loadData(){
 
 				$(".itemA").attr("myvar","desactive");
 				this.elementList.setAttribute("myvar","active");
-				document.getElementById("listCont").scrollTop = this.elementList.scrollx;
+				this.elementList.scrollIntoView();
 
 
 			});
@@ -208,6 +226,7 @@ function loadData(){
 		loadData2();
 		loadData3();
 		loadData4();
+		//loadData5();
 	});
 }
 
@@ -215,12 +234,8 @@ function addListOrderD(){
 
 	listMarkers.sort(function(a, b){return b.distance - a.distance}); 
 
-	auxScroll = 0;
 	for (var i = listMarkers.length - 1; i >= 0; i--) {
 		listMarkers[i].elementList.innerHTML = listMarkers[i].property_name + "<span class='badge'>"+Math.round(listMarkers[i].distance/10)/100+" km</span>";
-
-		listMarkers[i].elementList.scrollx = auxScroll;
-		auxScroll += 41;
 		document.getElementById("listCont").appendChild(listMarkers[i].elementList);
 	}
 }
@@ -228,11 +243,8 @@ function addListOrderS(){
 
 	listMarkers.sort(function(a, b){return  a.security - b.security}); 
 
-	auxScroll = 0;
 	for (var i = listMarkers.length - 1; i >= 0; i--) {		
 		listMarkers[i].elementList.innerHTML = listMarkers[i].property_name + "<span class='badge'>"+listMarkers[i].security+"</span>";
-		listMarkers[i].elementList.scrollx = auxScroll;
-		auxScroll += 41;
 		document.getElementById("listCont").appendChild(listMarkers[i].elementList);
 	}
 }
@@ -241,11 +253,8 @@ function addListOrderU(){
 
 	listMarkers.sort(function(a, b){return  a.utility - b.utility}); 
 
-	auxScroll = 0;
 	for (var i = listMarkers.length - 1; i >= 0; i--) {		
 		listMarkers[i].elementList.innerHTML = listMarkers[i].property_name + "<span class='badge'>"+listMarkers[i].utility+"</span>";
-		listMarkers[i].elementList.scrollx = auxScroll;
-		auxScroll += 41;
 		document.getElementById("listCont").appendChild(listMarkers[i].elementList);
 	}
 }
@@ -288,6 +297,7 @@ function distancePoints(locatio1,locatio2){
 function dis(locatio){
 	return Math.round(google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(41.8708, -87.6505),locatio));	
 }
+
 
 
 /*
