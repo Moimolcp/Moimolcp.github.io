@@ -46,7 +46,6 @@ function loadData2(){
 		}
 	}).done(function(data) {
 		for (var i = data.length - 1; i >= 0; i--) {
-			var aux = data[i];
 			var locatio = new google.maps.LatLng(data[i].latitude,data[i].longitude);
 			for (var j = listMarkers.length - 1; j >= 0; j--) {		
 				if (distancePoints(listMarkers[j].position,locatio) <= 3500){
@@ -63,7 +62,6 @@ function loadData2(){
 		}
 	}).done(function(data) {
 		for (var i = data.length - 1; i >= 0; i--) {
-			var aux = data[i];
 			var locatio = new google.maps.LatLng(data[i].location.coordinates[1],data[i].location.coordinates[0]);
 			for (var j = listMarkers.length - 1; j >= 0; j--) {		
 				if (distancePoints(listMarkers[j].position,locatio) <= 2000){
@@ -89,7 +87,6 @@ function loadData3(){
 		}
 	}).done(function(data) {
 		for (var i = data.length - 1; i >= 0; i--) {
-			var aux = data[i];
 			var locatio = new google.maps.LatLng(data[i].location.coordinates[1],data[i].location.coordinates[0]);
 			for (var j = listMarkers.length - 1; j >= 0; j--) {		
 				if (distancePoints(listMarkers[j].position,locatio) <= 1500){
@@ -106,11 +103,11 @@ function loadData4(){
 		url: "https://data.cityofchicago.org/resource/psqp-6rmg.json",
 		type: "GET",
 		data: {
+			"$where" : "location IS NOT NULL" ,
 			"$$app_token" : "sAFdYn2bqKywAwbfaxPq5Q83H"
 		}
 	}).done(function(data) {
 		for (var i = data.length - 1; i >= 0; i--) {
-			var aux = data[i];
 			var locatio = new google.maps.LatLng(data[i].location.coordinates[1],data[i].location.coordinates[0]);			
 			for (var j = listMarkers.length - 1; j >= 0; j--) {		
 				if (distancePoints(listMarkers[j].position,locatio) <= 1500){
@@ -124,12 +121,12 @@ function loadData4(){
 		url: "https://data.cityofchicago.org/resource/4xwe-2j3y.json",
 		type: "GET",
 		data: {
+			"$where" : "location IS NOT NULL" ,
 			"$$app_token" : "sAFdYn2bqKywAwbfaxPq5Q83H"
 		}
 	}).done(function(data) {
 
 		for (var i = data.length - 1; i >= 0; i--) {
-			var aux = data[i];
 			var locatio = new google.maps.LatLng(data[i].location.coordinates[1],data[i].location.coordinates[0]);			
 			for (var j = listMarkers.length - 1; j >= 0; j--) {		
 				if (distancePoints(listMarkers[j].position,locatio) <= 500){
@@ -173,9 +170,8 @@ function loadData(){
 				elementList : li,
 				security : 0,
 				utility : 0,
-
+				price : AverageRent.get(data[i].community_area)
 			});
-
 			var li = document.createElement("li");
 			li.setAttribute("myvar","desactive");
 			li.setAttribute("class","itemA list-group-item");
@@ -211,7 +207,9 @@ function loadData(){
 				document.getElementById('phone').innerHTML =  '<b>Phone number</b>:  ' + this.phone_number + "<BR>";
 				document.getElementById('commu').innerHTML =   '<b>Name of community</b>:  ' + this.community_area + "<BR>";
 				document.getElementById('distan').innerHTML =   '<b>Distance to Department of Computer Science </b>:  ' + this.distance/1000 + " Km <BR>";
-				this.
+				document.getElementById('secur').innerHTML =   '<b>Score of security </b>:  ' + this.security + "<BR>";
+				document.getElementById('utili').innerHTML =   '<b>Score of  utility </b>:  ' + this.utility + "<BR>";
+				document.getElementById('price').innerHTML =   '<b>Average rent </b>:  $' + this.price.toLocaleString() + "<BR>";
 				$(".itemA").attr("myvar","desactive");
 				this.elementList.setAttribute("myvar","active");
 				this.elementList.scrollIntoView();
@@ -260,6 +258,16 @@ function addListOrderU(){
 	}
 }
 
+function addListOrderP(){
+
+	listMarkers.sort(function(a, b){return  b.price - a.price}); 
+
+	for (var i = listMarkers.length - 1; i >= 0; i--) {		
+		listMarkers[i].elementList.innerHTML = listMarkers[i].property_name + "<span class='badge'>"+"$"+listMarkers[i].price.toLocaleString()+"</span>";
+		document.getElementById("listCont").appendChild(listMarkers[i].elementList);
+	}
+}
+
 function selectMarker(elem){
 	if (select != null){
 		select.icon = {
@@ -286,6 +294,9 @@ function selectMarker(elem){
 	document.getElementById('phone').innerHTML =  '<b>Phone number</b>:  ' + elem.phone_number + "<BR>";
 	document.getElementById('commu').innerHTML =   '<b>Name of community</b>:  ' + elem.community_area + "<BR>";
 	document.getElementById('distan').innerHTML =   '<b>Distance to Department of Computer Science </b>:  ' + elem.distance/1000 + " Km <BR>";
+	document.getElementById('secur').innerHTML =   '<b>Score of security </b>:  ' + elem.security + "<BR>";
+	document.getElementById('utili').innerHTML =   '<b>Score of  utility </b>:  ' + elem.utility + "<BR>";
+	document.getElementById('price').innerHTML =   '<b>Average rent </b>:  $' + elem.price.toLocaleString() + "<BR>";
 
 	$(".itemA").attr("myvar","desactive");
 	elem.elementList.setAttribute("myvar","active");
@@ -300,32 +311,3 @@ function dis(locatio){
 	return Math.round(google.maps.geometry.spherical.computeDistanceBetween(new google.maps.LatLng(41.8708, -87.6505),locatio));	
 }
 
-
-
-/*
-NOT YET IMPLEMENTED 
-
-
-*/
-
-/*
-TEST TOOLS
-
-function origen (){
-	map.setCenter({lat: 41.8708, lng: -87.6505});
-}
-
-function clear (){
-	map.c;
-}
-
-
-function clearr(){
-	console.log("HOLA");
-	console.log(document.getElementById("listCont").scrollTop);
-	document.getElementById("listCont").scrollTop = 0;
-
-}
-
-
-*/
